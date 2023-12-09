@@ -104,31 +104,95 @@ const btnLeft = document.getElementById("left");
 const btnUp = document.getElementById("up");
 const btnDown = document.getElementById("down");
 const btnRight = document.getElementById("right");
-const monitor = document.getElementById("mon");
-const folder ="img/tanks/";
-let artPath=["logan","samosval","t34","t90","uaz"]
-let curTrans = 0;
+let monitor = document.getElementById('mon');
+let changeCar = document.getElementsByTagName('select')[0];
+let imgLeft = document.getElementById("curLeft");
+let imgUp = document.getElementById("curUp");
+let imgDown = document.getElementById("curDown");
+let imgRight = document.getElementById("curRight");
+let groupBtn = document.getElementById('g');
+groupBtn.addEventListener("click",groupSelection);
 
-function runLeft(){
-console.log("Поехали влево");
-let path= `${folder}${arrTrans[curTrans]}left.jpg`
+let curTrans = 0;
+if(localStorage.getItem('cur')){
+  // curTrans = localStorage.getItem('cur');
 }
 
+
+changeCar.addEventListener('change', function(e){
+      curTrans = changeCar.options.selectedIndex - 1;
+      console.log(curTrans);
+      curFolder = `${folder}${arrTrans[curTrans].path}/`;
+      let path = `${curFolder}left.jpg`
+      monitor.setAttribute('src', path);
+      path = `${curFolder}up.jpg`
+      imgUp.setAttribute('src', path);
+      path = `${curFolder}down.jpg`
+      imgDown.setAttribute('src', path);
+      path = `${curFolder}right.jpg`
+      imgRight.setAttribute('src', path);
+     
+      localStorage.setItem('cur', curTrans);
+})
+
+function  groupSelection(e){
+  switch(btn){
+    case  "left":
+      runLeft();
+      case  "up":
+      runUp();
+      case  "Down":
+      runDown();
+      case  "Right":
+      runRight();
+      break;
+      
+  }
+}
+
+const folder = "img/tanks/";
+const arrTrans = [{ path:"logan",
+                  carName:"Логон"},
+                  { path:"samosval",
+                  carName:"Самосвал"},
+                  { path:"t34",
+                  carName:"Т34"},
+                  {path:"t90",
+                  carName:"Т90"},
+                  {path:"uaz",
+                  carName:"УАЗ"}];
+
+let = curFolder = `${folder}${arrTrans[curTrans].path}/`;
+
+for( i =0; i < arrTrans.length ; i++){
+
+
+let el0ption = document.createElement("option")
+el0ption.setAttribute("value", i);
+el0ption.textContent = arrTrans[i].carName;
+changeCar.append(el0ption);
+}
+
+function runLeft(){
+    console.log("Поехали влево");
+  let path = `${curFolder}left.jpg`
+    monitor.setAttribute('src', path);
+}
 function runUp(){
-  console.log("Поехали вперед");
-  let path= `${folder}${arrTrans[curTrans]}up.jpg`
+    console.log("Поехали вперёд");
+  let path = `${curFolder}up.jpg`
+    monitor.setAttribute('src', path);
 }
 
 function runDown(){
-  console.log("Поехали назад");
-  let path= `${folder}${arrTrans[curTrans]}down.jpg`
- }
-
+    console.log("Поехали назад");
+   let path = `${curFolder}down.jpg`
+    monitor.setAttribute('src', path);
+}
 function runRight(){
-  console.log("Поехали вправо");
-  let path= `${folder}${artPath[curTrans]}/right.jpg`
-  console.log(path);
-   monitor.setAttribute('src' , path);
+    console.log("Поехали вправо");
+  let path = `${curFolder}right.jpg`
+    monitor.setAttribute('src', path);
 }
 
 btnLeft.addEventListener('click', runLeft);
