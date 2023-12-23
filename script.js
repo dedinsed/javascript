@@ -1,101 +1,38 @@
-//let condition = false;
-//let userName = prompt ("Введите своё имя");
-//console.log (userName);
-//switch(userName){
-// for(let i =0;1 < 10; i++){
-// console.log(1*5);
-// };
-
-// let c = "глобальная переменная";
-
-// function sum(a,b){
-//     var c= a +b ;
-//     console.log('Облость видемости функции ${c}');
-//     if(c > 12);{
-
-//     let c = "облость блока";
-//     }
-
-// console.log ('Выход из блока значения ${c} ');
-//     return c;
-// }
-
-// sum(5,7);
-// console.log(c);
-
-// let polkan = {
-//     poroda : 'алабай',
-//     speak : function(){
-//         console.log('Gav Gav $(this.age)')
-
-//     },
-//     age:100,
-// }
-// polkan.speak();
-
-    let users =[
-      {id:  1,
-      uname: "Leanne Graham",
-      username: "Bret",
-      age:12,
-      email: "Sincere@april.biz",
-      address: {
-        street: "Kulas Light",
-        suite: "Apt. 556",
-        city: "Gwenborough",
-        zipcode: "92998-3874"},
-      
-          
-
-      },
-   
-    
-      {id: 2,
-      name: "Ervin Howell",
-      username: "Antonette",
-      age:25,
-      email: "Shanna@melissa.tv",
-      address: {
-        street: "Victor Plains",
-        suite: "Suite 879",
-        city: "Wisokyburgh",
-        zipcode: "90566-7771",
-       
-      },
-      
-    },
-    {
-        id: 3,
-      name: "Clementine Bauch",
-      username: "Samantha",
-      age:25,
-      email: "Nathan@yesenia.net",
-      address: {
-        street: "Douglas Extension",
-        suite: "Suite 847",
-        city: "McKenziehaven",
-        ipcode: "59590-4157",
-        
-      },
-    },
-    ]
-
-    //найти пользователя с возврастом 25 лет
-    let resl= users.filter(a => a.age == 25);
-    console.table(resl);
-    //из массива пользователя создать массив email
-    let res2= users.map(a => a.email);
-     console.table(res2);
-     //найти пользователя у которого в username есть буква а
-     let res3= users.filter (n => {
-        if(n => n.username.indexOf('a') == -1 && n.username.indexOf('A')== -1){
-              return true;
+let btn = document.getElementById('start');
+let temp = document.getElementById('fnode');
+let canv = document.getElementById('canv');
+btn.addEventListener('click',loadFoto);
+let path = 'https://api.slingacademy.com/v1/sample-data/photos?offset=5&limit=';
+function loadFoto(rangeFoto){
+    const limit  = setNumber();
+    let url = path + limit;
+    fetch(url).then(resusult=> resusult.json())
+    .then(res => res.photos).then(a => {
+        let arr=[];
+        for(let i=0; i < limit; i++){
+            arr.push(a[i].url);
         }
-        return false;
-    }
-     )
-        console.table(res3);
-        // из массива пользователя сделать streat
+        //console.log(arr);
+        return arr;
+        }
+        ).then(b =>{
+           // console.log(b);
+            //createEl(b);
+            for(let i = 0; i < limit; i++ ){
+                let foto = temp.content.cloneNode(true);
+                foto.getElementById('ft').setAttribute('src', b[i]);
+                console.log(b[i]);
+                canv.appendChild(foto);
+        }
+     } ).catch(e => alert ("что-то не так?"));
+    
+}
 
-        let res4= users.map(a =>a.address.suite);
-        console.table(res4);
+function setNumber(){
+    let limit = document.getElementById('fotoNumber').value;
+    console.log(limit)
+    if(isNaN(limit) || limit == null ){
+        limit = 10;
+    }
+    
+    return
